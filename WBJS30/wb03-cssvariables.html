@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <title>CSS variables</title>
+  <style>
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 5px;
+      --font-family: Helvetica, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #44eeb5;
+      color: white;
+      font-family: var(--font-family);
+      font-size: 25px;
+      text-align: center;
+    }
+
+    section {
+      position: relative;
+      width: 600px;
+      max-width: 90%;
+      margin: 10px auto;
+      padding: 10px;
+      background-color: #172d40;
+    }
+
+    #vanilla {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    span {
+      color: var(--base);
+    }
+
+    #setup {
+      min-height: 40vh;
+    }
+
+    label {
+      display: block;
+      width: 70%;
+      margin: 10px auto;
+    }
+
+    option {
+      text-align: center;
+    }
+
+    #sample {
+      width: 80%;
+      margin: 40px auto;
+      box-sizing: border-box;
+      background-color: var(--base);
+      padding: var(--spacing);
+      filter: blur(var(--blur));
+    }
+  </style>
+</head>
+
+<body>
+  <section>
+    <img id="vanilla" src="images/vjs-button.png" alt="">
+    <div id="setup">
+      <h2>Update CSS Variables with <span>JS</span></h2>
+      <label for="">Spacing:
+        <input name="spacing" type="range" min="10" max="200" value="10" data-sizing="px" />
+      </label>
+      <label for="">Blur:
+        <input name="blur" type="range" min="0" max="25" value="5" data-sizing="px" />
+      </label>
+      <label for="">Base color:
+        <input name="base" type="color" value="#ffc600" />
+      </label>
+      <label for="">Font family:
+        <select name="font-family">
+          <option value="" selected>-Please select-</option>
+          <option value="'Arial Narrow', sans-serif">Arial Narrow</option>
+          <option value="'Calibri Light', sans-serif">Calibri Light</option>
+          <option value="Candara, sans-serif">Candara</option>
+          <option value="'Candara Light', sans-serif">Candara Light</option>
+          <option value="Helvetica, sans-serif">Helvetica</option>
+          <option value="'Lucida Sans', sans-serif">Lucida</option>
+          <option value="Verdana, sans-serif">Verdana</option>
+          <option value="Cambria, serif">Cambria</option>
+          <option value="'Times New Roman', serif">Times New Roman</option>
+          <option value="'Courier New', monospace">Courier New</option>
+        </select>
+      </label>
+    </div>
+    <img id="sample" src="images/fountain.jpg" alt="" />
+  </section>
+  <!--  -->
+  <script>
+
+    function handleUpdate() {
+      if (this.name === "font-family") {
+        const option = this.options[this.selectedIndex].value;
+        document.documentElement.style.setProperty(`--${this.name}`, option);
+      } else {
+        const suffix = this.dataset.sizing || "";
+        document.documentElement.style.setProperty(
+          `--${this.name}`,
+          this.value + suffix
+        );
+      }
+    }
+
+    const labels = document.querySelectorAll("label");
+    labels.forEach((label) =>
+      label.firstElementChild.addEventListener("change", handleUpdate)
+    );
+    labels.forEach((label) => {
+      if (label.firstElementChild.dataset.sizing) {
+        label.firstElementChild.addEventListener("mousemove", handleUpdate);
+      }
+    });
+  </script>
+</body>
+
+</html>

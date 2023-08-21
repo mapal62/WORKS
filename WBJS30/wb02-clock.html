@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <title>CSS+JS Clock</title>
+  <!--  -->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    section {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(rgb(99, 181, 248), rgb(4, 50, 87));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    img {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-family: "Courier New", Courier, monospace;
+    }
+
+    .clock-face {
+      width: 60vw;
+      height: 60vw;
+      border: 7vw solid rgba(0, 0, 0, 0.274);
+      border-radius: 35%;
+      position: relative;
+      background: radial-gradient(white 0, blue 1%, lightblue);
+    }
+
+    .hand {
+      box-sizing: border-box;
+      position: absolute;
+      border-radius: 50% 20% 20% 50%;
+      transform-origin: center right;
+      transform: rotate(90deg);
+      right: 50%;
+    }
+
+    #big {
+      border: 3px solid rgba(0, 0, 0, 0.726);
+      top: calc(50% - 3px);
+      width: 45%;
+    }
+
+    #small {
+      font-size: 10px;
+      border: 6px solid black;
+      top: calc(50% - 6px);
+      width: 35%;
+    }
+
+    #sec {
+      border-top: 1px solid yellow;
+      top: calc(50% - 1px);
+      width: 48%;
+      border-radius: 0;
+    }
+
+    .transition {
+      transition: 0.1s;
+      transition-timing-function: cubic-bezier(0.1, 2.7, 0.6, 1);
+    }
+
+    @media (orientation: landscape) {
+      .clock-face {
+        width: 50vh;
+        height: 50vh;
+        border-width: 4vh;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <section>
+    <h1>just a second . . .</h1>
+    <div class="clock-face">
+      <div id="big" class="hand"></div>
+      <div id="small" class="hand"></div>
+      <div id="sec" class="hand transition"></div>
+    </div>
+    <img src="images/vjs-button.png" alt="">
+  </section>
+  <!--  -->
+  <script>
+    getTime(true);
+    function getTime(start = false) {
+      const now = new Date();
+      const sec = now.getSeconds();
+      const min = now.getMinutes();
+      const hour = now.getHours();
+      const digital = document.querySelector("h1");
+      if (start || sec % 5 === 0) {
+        digital.innerText = `${hour.toString().padStart(2, "0")}:${min
+          .toString()
+          .padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
+      }
+      const secDegree = (sec / 60) * 360 + 90;
+      const minDegree = (min / 60) * 360 + 90;
+      const hourDegree = (hour / 12) * 360 + 90 + (min / 60) * (360 / 12);
+      const secHand = document.getElementById("sec");
+      secHand.style.transform = `rotate(${secDegree}deg)`;
+      const minHand = document.getElementById("big");
+      minHand.style.transform = `rotate(${minDegree}deg)`;
+      const hourHand = document.getElementById("small");
+      hourHand.style.transform = `rotate(${hourDegree}deg)`;
+    }
+
+    setInterval(getTime, 1000);
+  </script>
+</body>
+
+</html>

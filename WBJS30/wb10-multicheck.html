@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>Multiply check on shift</title>
+    <style>
+        body {
+            background-color: #0cce88;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        section {
+            position: relative;
+            background-color: #ddd;
+            width: 400px;
+            margin: 20px auto;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+        }
+
+        div:last-child {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+        span {
+            font-size: 10px;
+            margin-right: 20px;
+            vertical-align: baseline;
+        }
+
+        img {
+            vertical-align: middle;
+        }
+
+        input {
+            margin: 15px;
+        }
+
+        p {
+            border-left: 1px solid grey;
+            padding: 20px;
+            margin: 0;
+            flex: 1;
+        }
+
+        input:checked+p {
+            text-decoration: line-through;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="item">
+            <input type="checkbox" name="1">
+            <p>Take a sample list of</p>
+        </div>
+        <div class="item">
+            <input type="checkbox" name="2">
+            <p>e-mails' titles or some notes</p>
+        </div>
+        <div class="item">
+            <input type="checkbox" name="3">
+            <p>where more items could be selected</p>
+        </div>
+        <div class="item">
+            <input type="checkbox" name="4">
+            <p>in one step (multiply check)</p>
+        </div>
+        <div class="item">
+            <input type="checkbox" name="5">
+            <p>using the SHIFT key and CLICK</p>
+        </div>
+        <div class="item">
+            <input type="checkbox" name="6">
+            <p>on the closure item of the block<br>(forward or backward)</p>
+        </div>
+        <div class="item">
+            <input type="checkbox" name="7">
+            <p>- some more lines -</p>
+        </div>
+        <div class="item">
+            <input type="checkbox" name="8">
+            <p>- some more lines -</p>
+        </div>
+        <div class="item">
+            <input type="checkbox" name="9">
+            <p>- some more lines -</p>
+        </div>
+        <div class="item">
+            <input type="checkbox" name="10">
+            <p>- some more lines -</p>
+        </div>
+        <div><span></span><img src="images/vjs-button.png" alt=""></div>
+    </section>
+    <script>
+        let lastChecked;
+        const comment = document.querySelector('div:last-child>span')
+        const items = document.querySelectorAll('.item>input');
+        items.forEach(element => {
+            // CLICK is a PointerEvent !!!            
+            element.addEventListener('click', handleSelect);
+        });
+        function handleSelect(e) {
+            // console.log(e);
+            if (e.shiftKey && this.checked && lastChecked) {
+                // console.log(this);
+                let inBetween = false;
+                items.forEach((item) => {
+                    // console.log(item, inBetween);
+                    if (item === lastChecked || item === this) {
+                        inBetween = !inBetween;
+                    }
+                    if (inBetween) item.checked = true;
+                })
+            }
+            if (this.checked && !e.shiftKey) {
+                lastChecked = this
+            } else {
+                lastChecked = undefined;
+            }
+            if (lastChecked) {
+                comment.innerText = `Range active from: ${lastChecked.name}`;
+            } else { comment.innerText = 'Range inactive' };
+        }
+    </script>
+</body>
+
+</html>

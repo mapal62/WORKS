@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>Type Ahead - APOD</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #ffc600;
+            font-family: 'Arial Narrow', Helvetica, sans-serif;
+            font-weight: 200;
+        }
+
+        section {
+            position: relative;
+            width: 400px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        #vanilla {
+            position: absolute;
+            top: 0;
+            right: -15%;
+        }
+
+        label {
+            margin: 0 10px;
+        }
+
+        #search {
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            border: 5px solid #f7f7f7;
+            position: relative;
+            width: 480px;
+            left: -70px;
+            top: 10px;
+            z-index: 2;
+            border-radius: 5px;
+            font-size: 20px;
+        }
+
+        #filtered {
+            margin: 0;
+            padding: 0;
+            text-align: left;
+        }
+
+        li {
+            list-style: none;
+            border-bottom: 1px solid #d8d8d8;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
+            margin: 0;
+            padding: 10px;
+            position: relative;
+        }
+
+        li:nth-child(even) {
+            transform: perspective(100px) rotateX(3deg) translateY(2px) scale(1.001);
+            background: linear-gradient(to bottom, #fff 0%, #aaa 100%);
+        }
+
+        li:nth-child(odd) {
+            transform: perspective(100px) rotateX(-3deg) translateY(3px);
+            background: linear-gradient(to top, #fff 0%, #aaa 100%);
+
+        }
+
+        p {
+            margin: 0;
+            padding: 0 10px 0 0;
+        }
+
+        p:first-child {
+            /* text-align: right; */
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .toflex {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .imgindex {
+            height: 50px;
+            width: 50px;
+            border: 1px solid grey;
+        }
+
+        div:last-child {
+            display: none;
+        }
+
+        li:hover {
+            transform: none;
+        }
+
+        li:hover div:last-child {
+            display: block;
+            padding: 5px;
+            width: 140%;
+            transform: translate(-15%);
+            z-index: 3;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .hl {
+            background-color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <img id="vanilla" src="images/vjs-button.png" alt="">
+        <h2>Astronomy Picture of the Day / NASA</h2>
+        <label for="">
+            <input type="radio" name="setof" value="count">Random
+        </label>
+        <label for="">
+            <input type="radio" name="setof" value="month">Last month
+        </label>
+        <label for="">
+            <input type="radio" name="setof" value="year">Last year
+        </label>
+        <input id="search" type="text" placeholder="Object or event">
+        <ul id="filtered">
+            <li>
+                <!-- template for item generation -->
+                <div class="toflex">
+                    <div>
+                        <p>Filter for image title</p>
+                        <p>of celestial object</p>
+                    </div>
+                    <a href="#">
+                        <img class="imgindex" src="" alt="sample">
+                    </a>
+                </div>
+                <div>EXPLANATION</div>
+                <!--  -->
+            </li>
+            <li>or astronomical event</li>
+        </ul>
+    </section>
+    <!--  -->
+    <script src="../helyi/testdata.js"></script>
+    <script>
+        const live = true;
+        const htmlStatus = {
+            403: '403 Forbidden response'
+        }
+        const apods = []; //Safari 5.1.7 -> 'var'
+        const imageSets = document.querySelectorAll('input[name="setof"]');
+        const searchInput = document.getElementById('search');
+        const list = document.getElementById('filtered');
+
+        imageSets.forEach(set => {
+            set.addEventListener('click', setParameters);
+        });
+
+        function setOptions(choosen) {
+            const backToDate = {
+                month: -30,
+                year: -365,
+                count: 10
+            }
+            const today = new Date();
+            today.setDate(backToDate[choosen]);
+            const priorDate = today.toISOString().split('T')[0];
+            if (choosen === 'count') {
+                return `&count=${backToDate[choosen]}`
+            } else {
+                return `&start_date=${priorDate}`;
+            }
+        }
+
+        function setParameters() {
+            searchInput.value = 'loading . . .';
+            list.innerHTML = '';
+            apods.length = 0;
+            const choosen = this.value;
+            const initSet = setOptions(choosen);
+            let target = 'https://api.nasa.gov/planetary/apod?api_key=';
+
+            try {
+                apikeys.nasa;
+                target += apikeys.nasa
+            } catch (e) {
+                target += 'DEMO_KEY'
+            }
+            try {
+                nasaApod;
+                if (!live) {
+                    apods.push(...nasaApod)
+                } else getApod(target + initSet);
+            } catch (e) {
+                console.log(e);
+                getApod(target + initSet);
+            }
+        }
+
+        function getApod(url) {
+            console.time('fetching');
+            fetch(url)
+                .then((res) => {
+                    if (!res.ok) {
+                        searchInput.value = htmlStatus[res.status];
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    apods.push(...data);
+                    searchInput.value = '';
+                    searchInput.focus();
+                    console.timeEnd('fetching');
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+
+        }
+
+        function findMatches(wordToMatch, images) {
+            return images.filter(image => {
+                const regex = new RegExp(wordToMatch, 'gi');
+                //no-match return null
+                return image.title.match(regex) || image.date.match(regex);
+            })
+        }
+
+        function displayMatches() {
+            const items = findMatches(this.value, apods);
+
+            const html = items.map(item => {
+                const regex = new RegExp(this.value, 'gi');
+                const highlighted = item.title.replace(regex, `<span class='hl'>${this.value}</span>`);
+                const hlDate = item.date.replace(regex, `<span class='hl'>${this.value}</span>`);
+
+                return `
+        <li>
+            <div class='toflex'>
+                <div>
+                    <p>${hlDate}: ${highlighted}</p>
+                    <p>${item.explanation.slice(0, 80) + '... >>>'}</p>
+                </div>
+                <a href='${item.url}' target='_blank'>
+                    <img class='imgindex' src='${item.media_type === "image" ? item.url : "images/video-text-overlay.png"}'>
+                </a>
+            </div>
+            <div>${item.explanation}</div>
+        </li>
+    `
+            }).join(' ');
+            list.innerHTML = html;
+        }
+
+        searchInput.addEventListener('keyup', displayMatches);
+
+    </script>
+</body>
+
+</html>

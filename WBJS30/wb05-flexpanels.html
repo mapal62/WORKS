@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>Images / flex</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffc600;
+        }
+
+        img {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        #kalen {
+            /* Photo by <a href="https://unsplash.com/@kalenemsley?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Kalen Emsley</a> on <a href="https://unsplash.com/photos/7bwQXzbF6KE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> */
+            background-image: url('images/kalen-emsley-7bwQXzbF6KE-unsplash.jpg');
+        }
+
+        #annegret {
+            /* Photo by <a href="https://unsplash.com/@anneeaway?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Annegret Kammer</a> on <a href="https://unsplash.com/photos/5jFgXl7JTec?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> */
+            background-image: url('images/annegret-kammer-5jFgXl7JTec-unsplash.jpg');
+        }
+
+        #jared {
+            /* Photo by <a href="https://unsplash.com/@jareddrice?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Jared Rice</a> on <a href="https://unsplash.com/photos/NTyBbu66_SI?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> */
+            background-image: url('images/jared-rice-NTyBbu66_SI-unsplash.jpg');
+        }
+
+        #ishan {
+            /* Photo by <a href="https://unsplash.com/@seefromthesky?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Ishan @seefromthesky</a> on <a href="https://unsplash.com/photos/e5uhsINjlPY?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> */
+            background-image: url('images/ishan-seefromthesky-e5uhsINjlPY-unsplash.jpg');
+        }
+
+        #josh {
+            /* Photo by <a href="https://unsplash.com/@joshcala?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Josh Calabrese</a> on <a href="https://unsplash.com/photos/Ev1XqeVL2wI?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> */
+            background-image: url('images/josh-calabrese-Ev1XqeVL2wI-unsplash.jpg');
+        }
+
+        #kyle {
+            /* Photo by <a href="https://unsplash.com/@kylejglenn?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Kyle Glenn</a> on <a href="https://unsplash.com/photos/cQS9Jfc3q14?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> */
+            background-image: url('images/kyle-glenn-cQS9Jfc3q14-unsplash.jpg');
+        }
+
+        #shane {
+            /* Photo by <a href="https://unsplash.com/es/@shanerounce?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Shane Rounce</a> on <a href="https://unsplash.com/photos/DNkoNXQti3c?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> */
+            background-image: url('images/shane-rounce-trimmed.jpg');
+        }
+
+        section {
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            font-size: 20px;
+        }
+
+        .picture {
+            background-color: #6b0f9c;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            transition: all 0.7s ease-out;
+            justify-content: center;
+            align-items: center;
+        }
+
+        p:first-child {
+            transform: translateY(-80%);
+        }
+
+        p:nth-child(2) {
+            font-size: 3rem;
+        }
+
+        p:last-child {
+            transform: translateY(80%);
+        }
+
+        .picture:hover {
+            flex: 3;
+            font-size: 3rem;
+        }
+
+        .picture:hover p:nth-child(2) {
+            font-size: 5rem;
+        }
+
+        p {
+            /* border: 1px solid red; */
+            color: rgb(240, 180, 130);
+            font-family: 'Amatic SC', 'Ink Free', cursive;
+            text-transform: uppercase;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.9), 0 0 16px rgba(0, 0, 0, 0.4);
+            font-weight: bold;
+            flex: 1 0 auto;
+            display: flex;
+            align-items: center;
+            transition: all 1.5s;
+        }
+
+
+        .picture:hover p {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <img src="images/vjs-button.png" alt="">
+    <section>
+        <div id="jared" class="one picture">
+            <p>Hey</p>
+            <p>Let's</p>
+            <p>Dance</p>
+        </div>
+        <div id="shane" class="picture">
+            <p>Give</p>
+            <p>Take</p>
+            <p>Recieve</p>
+
+        </div>
+        <div id="annegret" class="picture">
+            <p>Experience</p>
+            <p>It</p>
+            <p>Today</p>
+        </div>
+        <div id="kalen" class="picture">
+            <p>Give</p>
+            <p>All</p>
+            <p>You can</p>
+
+        </div>
+        <div id="ishan" class="picture">
+            <p>Life</p>
+            <p>In</p>
+            <p>Motion</p>
+
+        </div>
+    </section>
+    <!--     <script>
+        function elementP(e) {
+            console.log(e);
+            // if (e.propertyName === 'flex-grow') {
+            const textP = this.querySelectorAll('p');
+            textP.forEach(item => {
+                item.style.setProperty('transform', 'translateY(0)');
+            })
+        }
+        function resetP(e) {
+            const textP = this.querySelectorAll('p');
+            textP.forEach(item => {
+                item.removeAttribute('style');
+            })
+
+        }
+        // }
+        const pictures = document.querySelectorAll('.picture');
+        pictures.forEach(picture => {
+            picture.addEventListener('mouseover', elementP);
+            picture.addEventListener('mouseleave', resetP);
+        });
+    </script>
+ -->
+</body>
+
+</html>

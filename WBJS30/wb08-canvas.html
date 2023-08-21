@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>HTML Canvas</title>
+    <style>
+        html {
+            background-color: #adaada;
+        }
+
+        body {
+            overflow: hidden;
+            background-color: #bada55;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #main {
+            position: relative;
+            height: 95vh;
+            width: 80vw;
+            margin: 0 auto;
+            /* padding: 10px; */
+            background-color: #adaada;
+        }
+
+        img {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        section {
+            display: flex;
+            height: 90%;
+            width: 95%;
+            margin: 0 auto;
+        }
+
+        #setup {
+            width: 200px;
+        }
+
+        label,
+        input {
+            vertical-align: middle;
+        }
+
+        #drawing {
+            flex-basis: 100%;
+        }
+
+        canvas {
+            background-color: beige;
+            border: 1px solid black;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <h2>Draw to a CANVAS</h2>
+        <section>
+            <div id="setup">
+                <label>Thickness: <span></span>
+                    <input type="range" min="2" max="40" value="5">
+                </label>
+                <p>
+                    <label>Color:
+                        <input type="color" value="#0075ff">
+                    </label>
+                </p>
+                <p>
+                    <label for="">
+                        <input type="checkbox">
+                        Rainbow style
+                    </label>
+                </p>
+                <p>
+                    <canvas hidden></canvas>
+                </p>
+            </div>
+            <div id="drawing">
+                <canvas width="3000" height="2000"></canvas>
+            </div>
+        </section>
+        <img src="images/vjs-button.png" alt="">
+    </div>
+    <script>
+        //variables
+        let lineWidth = 5;
+        let strokeStyle = '#0075ff';
+        let lastX;
+        let lastY;
+        let pen = false;
+        let rainbow = false;
+        let hue = 0;
+        //selectors
+        const parameters = document.querySelectorAll('input');
+        const rangeValue = document.querySelector('label>span');
+        const flexDrawing = document.querySelector('#drawing');
+        const vaszon = document.querySelector('#drawing canvas');
+        // vaszon.height = flexDrawing.clientHeight;
+        // vaszon.width = flexDrawing.clientWidth;
+        const kettoD = vaszon.getContext('2d');
+        const testCanvas = document.querySelector('#setup canvas');
+        const testCtx = testCanvas.getContext('2d');
+        events();
+        setParameters();
+        //
+        function getInput(e) {
+            // console.log(this, this.type, this.value);
+            if (this.type === 'range') {
+                lineWidth = this.value;
+                rangeValue.innerText = lineWidth;
+                kettoD.lineWidth = lineWidth;
+            }
+            if (this.type === 'color') {
+                strokeStyle = this.value;
+            }
+            if (this.type === 'checkbox') {
+                rainbow = this.checked;
+            }
+
+        }
+        function setParameters() {
+            vaszon.height = flexDrawing.clientHeight;
+            vaszon.width = flexDrawing.clientWidth;
+            kettoD.lineCap = 'round'
+            kettoD.lineWidth = lineWidth;
+            kettoD.strokeStyle = strokeStyle;
+
+        }
+        function draw(e) {
+            if (!pen) return;
+            // console.log(e.offsetX, e.offsetY);
+            kettoD.strokeStyle = strokeStyle;
+            if (rainbow) {
+                hue++;
+                kettoD.strokeStyle = `hsl(${hue}, 100%, 50%)`
+            }
+            kettoD.beginPath();
+            kettoD.moveTo(lastX, lastY);
+            kettoD.lineTo(e.offsetX, e.offsetY);
+            kettoD.stroke();
+            lastX = e.offsetX;
+            lastY = e.offsetY;
+        }
+        function testPattern(current) {
+            // diagonal from origo
+            current.beginPath();
+            current.moveTo(0, 0);
+            current.lineTo(100, 100);
+            current.stroke();
+            // horizontal at 150
+            current.beginPath();
+            current.moveTo(0, 150);
+            current.lineTo(150, 150);
+            current.stroke();
+            // vertical at 200
+            current.beginPath();
+            current.moveTo(200, 0);
+            current.lineTo(200, 150);
+            current.stroke();
+
+        }
+        function events() {
+            window.addEventListener('resize', setParameters)
+            parameters.forEach((item) => {
+                item.addEventListener('change', getInput)
+            })
+            vaszon.addEventListener('mouseup', () => { pen = false });
+            vaszon.addEventListener('mouseout', () => { pen = false });
+            vaszon.addEventListener('mousedown', (e) => {
+                pen = true;
+                lastX = e.offsetX;
+                lastY = e.offsetY;
+                console.log(lastX, lastY);
+            });
+            vaszon.addEventListener('mousemove', draw);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+:root {
+    --status-size: 120px;
+}
+body {
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    /* Font-family: Helvetica Neue, Helvetica, Arial, sans-serif. 
+    Font-family: Lucida Sans, Helvetica, Arial, sans-serif.
+    Font-family: Tahoma, Verdana, Segoe, sans-serif.
+    */
+}
+h2 {
+}
+div {
+    /* border: 2px dotted cyan; */
+    /* display: flex; */
+    text-align: center;
+    margin: 0 auto;
+}
+.vertical {
+    flex-direction: column;
+}
+.container {
+    position: relative;
+    width: 80%;
+    overflow: hidden;
+    max-height: 95%;
+}
+video {
+    width: 100%;
+}
+.status {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.controls {
+    width: 110%;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(80%);
+    background: none;
+    transition: transform 0.3s;
+}
+
+.container:hover .controls {
+    transform: translateX(-50%) translateY(0);
+}
+.progress {
+    width: 90%;
+    margin: 10px auto;
+    background-color: white;
+    display: flex;
+}
+.progress__filled {
+    background-color: rgb(255, 132, 0);
+    height: 10px;
+    margin: 0;
+}
+.status {
+    box-sizing: border-box;
+    padding: 0;
+    width: var(--status-size);
+    height: var(--status-size);
+
+}
+.status.play {
+    border-style: solid;
+    border-width: calc(var(--status-size) / 2) 0 calc(var(--status-size) / 2) var(--status-size);
+    border-color:transparent transparent transparent #20202040;
+}
+.status.pause {
+    border-style: double;
+    border-width: 0 0 0 var(--status-size);
+    border-color:transparent transparent transparent #202020c0;
+}
