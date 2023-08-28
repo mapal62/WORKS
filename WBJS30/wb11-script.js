@@ -1,10 +1,11 @@
 /*local vs. public path*/
-const mapalandroidShare = "
-https://drive.google.com/drive/folders/1ac8-QRypU3o6bmWSxdPDECsrpSQD87tn?usp=sharing/";
+const mapalandroidSource = "https://drive.google.com/drive/folders/1ac8-QRypU3o6bmWSxdPDECsrpSQD87tn?usp=sharing/"; //CORB!!!
+const netSource = "./videos/illumination.mp4"
 
 /* element */
 const player = document.querySelector(".container");
 const video = player.querySelector("video");
+
 const progress = player.querySelector(".progress");
 const progressBar = player.querySelector(".progress__filled");
 const toggle = player.querySelector(".toggle");
@@ -13,6 +14,12 @@ const ranges = player.querySelectorAll(".player__slider");
 const stat = player.querySelector(".status");
 
 /* functions */
+function sourceError() {
+  // console.dir(video);
+  video.src = netSource;
+}
+
+
 function togglePlay() {
   /*   if (video.paused) {
     video.play();
@@ -43,7 +50,7 @@ function handleRangeUpdate() {
 function handleProgress() {
   const percent = (video.currentTime / video.duration) * 100;
   progressBar.style.flexBasis = `${percent}%`;
-  console.log(percent);
+  // console.log(percent);
 }
 
 function scrub(e) {
