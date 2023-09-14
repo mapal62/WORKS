@@ -55,7 +55,7 @@
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
-        align-items:center;
+        align-items: center;
       }
     }
   </style>
@@ -63,40 +63,74 @@
 
 <body>
   <section>
-    <a href="wb01-drumkit.html">
-      <img src="images/drumkit.jpg" alt="" />
-      <span>-Drum Kit-</span>
-    </a>
-    <a href="wb02-clock.html">
-      <img src="images/clock.jpg" alt="" />
-      <span>-Clock-</span>
-    </a>
-
-    <a href="wb03-cssvariables.html">
-      <img src="images/css-variable.jpg" alt="" />
-      <span>-CSS var-</span>
-    </a>
-    <a href="wb05-flexpanels.html">
-      <img src="images/flexpanels.jpg" alt="" />
-      <span>-CSS var-</span>
-    </a>
-    <a href="wb06-typeahead.html">
-      <img src="images/typeahead.jpg" alt="" />
-      <span>-Type ahead-</span>
-    </a>
-    <a href="wb08-canvas.html">
-      <img src="images/canvas.jpg" alt="" />
-      <span>-Canvas-</span>
-    </a>
-    <a href="wb10-multicheck.html">
-      <img src="images/checks.jpg" alt="" />
-      <span>-Multi check-</span>
-    </a>
-    <a href="wb11-video.html">
-      <img src="images/player.jpg" alt="" />
-      <span>-Player-</span>
-    </a>
   </section>
+
+  <script>
+    console.log('RUNNING');
+    const samples = [
+      {
+        href: "wb01-drumkit.html",
+        src: "images/drumkit.jpg",
+        description: "-Drum Kit-"
+      },
+      {
+        href: "wb02-clock.html",
+        src: "images/clock.jpg",
+        description: "-Clock-"
+      },
+      {
+        href: "wb03-cssvariables.html",
+        src: "images/css-variable.jpg",
+        description: "-CSS var-"
+      },
+      {
+        href: "wb05-flexpanels.html",
+        src: "images/flexpanels.jpg",
+        description: "-Panels-"
+      },
+      {
+        href: "wb06-typeahead.html",
+        src: "images/typeahead.jpg",
+        description: "-Type ahead-"
+      },
+      {
+        href: "wb08-canvas.html",
+        src: "images/canvas.jpg",
+        description: "-Canvas-"
+      },
+      {
+        href: "wb10-multicheck.html",
+        src: "images/checks.jpg",
+        description: "-Multi check-"
+      },
+      {
+        href: "wb11-video.html",
+        src: "images/player.jpg",
+        description: "-Player-"
+      },
+      {
+        href: "wb12-konami.html",
+        src: "images/konami.jpg",
+        description: "-Cheating-"
+      }
+    ];
+    const wesbos = document.querySelector('section');
+    const appended = [];
+    samples.forEach((item) => {
+      const linked = document.createElement('a');
+      linked.setAttribute('href', item.href);
+      const picture = document.createElement('img');
+      picture.setAttribute('src', item.src);
+      picture.setAttribute('alt', item.description);
+      linked.appendChild(picture);
+      const memo = document.createElement('span');
+      memo.innerHTML = item.description;
+      linked.appendChild(memo);
+      console.log(linked);
+      appended.push(linked);
+    });
+    wesbos.append(...appended);
+  </script>
 </body>
 
 </html>
